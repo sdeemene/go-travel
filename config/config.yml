@@ -6,3 +6,7 @@ server:
   port: ":8084"
 environment: 
   profile: "dev"
+jwt:
+  accesskey: "secret12isnot34"
+  refreshkey: "oldsecretisactually12butnot34"
+  issuer: "stlemmy_travel"

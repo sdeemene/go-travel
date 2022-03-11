@@ -10,6 +10,7 @@ type Configuration struct {
 	Database    Database
 	Server      Server
 	Environment Environment
+	Jwt         Jwt
 }
 
 type Database struct {
@@ -23,6 +24,12 @@ type Server struct {
 }
 type Environment struct {
 	Profile string
+}
+
+type Jwt struct {
+	AccessKey  string
+	RefreshKey string
+	Issuer     string
 }
 
 func GetConfiguration() Configuration {

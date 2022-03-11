@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/stdeemene/go-travel/middleware"
 )
 
 func GetRouters() *mux.Router {
@@ -20,7 +19,6 @@ func GetRouters() *mux.Router {
 	AddAuthRouter(subrouter)
 	AddUserRouter(subrouter)
 	AddTravelRouter(subrouter)
-	router.Use(middleware.LoggingUri)
 	return router
 }
 

@@ -42,17 +42,7 @@ func FindAllTravels(ctx context.Context) ([]models.Travel, error) {
 	if err != nil {
 		return travels, err
 	}
-	defer cursor.Close(ctx)
-
-	for cursor.Next(ctx) {
-		var travel models.Travel
-		err := cursor.Decode(&travel)
-		if err != nil {
-			return travels, err
-		}
-		travels = append(travels, travel)
-	}
-
+	cursor.All(ctx, travels)
 	return travels, nil
 }
 
@@ -63,17 +53,7 @@ func SearchAllTravels(ctx context.Context, filter interface{}) ([]models.Travel,
 	if err != nil {
 		return travels, err
 	}
-	defer cursor.Close(ctx)
-
-	for cursor.Next(ctx) {
-		travel := models.Travel{}
-		err := cursor.Decode(&travel)
-		if err != nil {
-			return travels, err
-		}
-		travels = append(travels, travel)
-	}
-
+	cursor.All(ctx, travels)
 	return travels, nil
 
 }

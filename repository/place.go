@@ -56,17 +56,7 @@ func FindPlaces(ctx context.Context) ([]models.Place, error) {
 	if err != nil {
 		return places, err
 	}
-	defer cursor.Close(ctx)
-
-	for cursor.Next(ctx) {
-		var place models.Place
-		err := cursor.Decode(&place)
-		if err != nil {
-			return places, err
-		}
-		places = append(places, place)
-	}
-
+	cursor.All(ctx, places)
 	return places, nil
 }
 
@@ -77,16 +67,7 @@ func SearchPlaces(ctx context.Context, filter interface{}) ([]models.Place, erro
 	if err != nil {
 		return places, err
 	}
-	defer cursor.Close(ctx)
-
-	for cursor.Next(ctx) {
-		place := models.Place{}
-		err := cursor.Decode(&place)
-		if err != nil {
-			return places, err
-		}
-		places = append(places, place)
-	}
+	cursor.All(ctx, places)
 
 	return places, nil
 

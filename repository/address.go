@@ -42,17 +42,17 @@ func FindAllAddresses(ctx context.Context) ([]models.Address, error) {
 	if err != nil {
 		return addresses, err
 	}
+	// cursor.All(ctx, addresses)
 	defer cursor.Close(ctx)
 
 	for cursor.Next(ctx) {
-		var address models.Address
+		address := models.Address{}
 		err := cursor.Decode(&address)
 		if err != nil {
 			return addresses, err
 		}
 		addresses = append(addresses, address)
 	}
-
 	return addresses, nil
 }
 

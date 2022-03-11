@@ -40,3 +40,21 @@ go get github.com/spf13/viper
 go get go.mongodb.org/mongo-driver/mongo
 go get github.com/google/uuid
 go get github.com/hako/durafmt
+go get github.com/rs/cors
+go get github.com/gorilla/handlers
+
+Question:
+how to implement this 
+// type PlaceRepository interface {
+// 	Save(models.Place) (interface{}, error)
+
+// 	FindById(primitive.M) (models.Place, error)
+
+// 	Update(primitive.M, interface{}) (int64, error)
+
+// 	Delete(primitive.M) (int64, error)
+
+// 	FindAll() ([]models.Place, error)
+
+// 	Search(interface{}) ([]models.Place, error)
+// }

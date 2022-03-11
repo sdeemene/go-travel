@@ -3,6 +3,8 @@ package middleware
 import (
 	"encoding/json"
 	"net/http"
+
+	"github.com/gorilla/handlers"
 )
 
 type Response struct {
@@ -36,4 +38,11 @@ func BaseResponse(w http.ResponseWriter, status int, result interface{}) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
 	json.NewEncoder(w).Encode(baseResponse)
+}
+
+func Headers(r http.Handler) http.Handler {
+	headersOk := handlers.AllowedHeaders([]string{"Authorization"})
+	originsOk := handlers.AllowedOrigins([]string{"*"})
+	methodsOk := handlers.AllowedMethods([]string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodPatch, http.MethodOptions})
+	return handlers.CORS(headersOk, originsOk, methodsOk)(r)
 }

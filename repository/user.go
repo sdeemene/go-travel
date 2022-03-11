@@ -42,16 +42,7 @@ func FindUsers(ctx context.Context) ([]models.User, error) {
 	if err != nil {
 		return users, err
 	}
-	defer cursor.Close(ctx)
-
-	for cursor.Next(ctx) {
-		var user models.User
-		err := cursor.Decode(&user)
-		if err != nil {
-			return users, err
-		}
-		users = append(users, user)
-	}
+	cursor.All(ctx, users)
 
 	return users, nil
 }
@@ -63,17 +54,7 @@ func SearchUsers(ctx context.Context, filter interface{}) ([]models.User, error)
 	if err != nil {
 		return users, err
 	}
-	defer cursor.Close(ctx)
-
-	for cursor.Next(ctx) {
-		user := models.User{}
-		err := cursor.Decode(&user)
-		if err != nil {
-			return users, err
-		}
-		users = append(users, user)
-	}
-
+	cursor.All(ctx, users)
 	return users, nil
 
 }

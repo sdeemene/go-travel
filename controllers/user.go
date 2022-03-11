@@ -8,6 +8,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/stdeemene/go-travel/middleware"
 	"github.com/stdeemene/go-travel/models"
+	"github.com/stdeemene/go-travel/security"
 	"github.com/stdeemene/go-travel/services"
 )
 
@@ -115,16 +116,21 @@ var Authenticate = http.HandlerFunc(
 	func(w http.ResponseWriter, r *http.Request) {
 		credentials := new(models.LoginReq)
 		err := json.NewDecoder(r.Body).Decode(&credentials)
-		fmt.Println("login request: ", credentials)
 		if err != nil {
 			middleware.BaseResponse(w, http.StatusBadRequest, err.Error())
 			return
 		}
-		result, err := services.Login(r.Context(), credentials)
+		user, err := services.Login(r.Context(), credentials)
 		if err != nil {
 			middleware.BaseResponse(w, http.StatusInternalServerError, err.Error())
 			return
 		}
-		middleware.BaseResponse(w, http.StatusAccepted, result)
+
+		tokenDetails, err := security.GenerateJwtToken(*user)
+		if err != nil {
+			middleware.BaseResponse(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+		middleware.BaseResponse(w, http.StatusAccepted, tokenDetails)
 
 	})

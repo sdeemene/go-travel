@@ -133,6 +133,5 @@ func Login(ctx context.Context, credentials *models.LoginReq) (*models.User, err
 	if err != nil {
 		return nil, utility.NewError("invalid password")
 	}
-
 	return user, nil
 }

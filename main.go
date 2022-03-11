@@ -7,20 +7,27 @@ import (
 	"time"
 
 	"github.com/stdeemene/go-travel/config"
+	"github.com/stdeemene/go-travel/middleware"
 	"github.com/stdeemene/go-travel/routers"
+	"github.com/stdeemene/go-travel/security"
 )
 
 func main() {
 	config := config.GetConfiguration()
+	router := routers.GetRouters()
 
-	routes := routers.GetRouters()
+	jwtService := security.TokenConfig{Config: &config}
+	fmt.Println("jwtService ", jwtService)
+
+	router.Use(middleware.Cors, middleware.LoggingUri, jwtService.ProtectApi)
+
 	srv := &http.Server{
-		Handler:      routes,
+		Handler:      middleware.Headers(router),
 		Addr:         config.Server.Port,
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
-	fmt.Printf("Starting server on port %v....", config.Server.Port)
+	fmt.Printf("Application is running on Port %v....\n", config.Server.Port)
 	log.Fatal(srv.ListenAndServe())
-	fmt.Printf("Listening on port %v....", config.Server.Port)
+
 }
