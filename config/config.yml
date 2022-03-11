@@ -1,6 +1,6 @@
 database:
   localuri: "mongodb://127.0.0.1:27017"
-  remoteuri: "mongodb+srv://m001-student:m001-mongodb-basics@sandbox.pjdbh.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+  remoteuri: ""
   databasename: travel_db
 server:
   port: ":8084"
